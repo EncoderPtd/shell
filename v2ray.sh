@@ -5,6 +5,8 @@
 # cp v2ray.sh /usr/bin/
 # v2ray.sh -h
 
+version="1.0"
+
 StartV2Ray() {
     str="Starting v2ray"
     echo -e "\033[32m${str}\033[0m"
@@ -84,7 +86,7 @@ PrintSystemProxySetting() {
 
     proxy_mode=$(gsettings get org.gnome.system.proxy mode)
 
-    str="""http_proxy="${http_host}":${http_port}\n
+    str=""" http_proxy="${http_host}":${http_port}\n
     https_proxy=${https_host}:${https_port}\n
     socks_proxy=${socks_host}:${socks_port}\n
     proxy_mode=${proxy_mode}"""
@@ -123,13 +125,49 @@ StopV2Ray() {
     killProcess "v2ray"
 }
 
-helpstr="""Control v2ray start/stop under shell
+InstallShell() {
+    str="Installing v2ray.sh to /usr/bin/v2ray.sh"
+    echo -e "\033[32m${str}\033[0m"
 
+    sudo cp -r ./v2ray.sh /usr/bin/v2ray.sh
+    sudo chmod +x /usr/bin/v2ray.sh
+
+    # ls -ah /usr/bin/ | grep v2ray
+    whereis v2ray.sh
+
+    str="Installed v2ray.sh to /usr/bin/v2ray.sh"
+    echo -e "\033[32m${str}\033[0m"
+    str="Now you can use 'v2ray.sh -h' anywhere"
+    echo -e "\033[32m${str}\033[0m"
+}
+
+PrintVersion() {
+    str="version: ${version}"
+    echo -e "\033[30;7m${str}\033[0m"
+    echo -e "\033[31;1m${str}\033[0m"
+    echo -e "\033[32;1m${str}\033[0m"
+    echo -e "\033[33;1m${str}\033[0m"
+    echo -e "\033[34;1m${str}\033[0m"
+    echo -e "\033[35;1m${str}\033[0m"
+    echo -e "\033[36;2m${str}\033[0m"
+    echo -e "\033[37;5m${str}\033[0m"
+}
+
+helpstr="""\033[33;1mControl v2ray start/stop under shell\033[0m
+\033[34;1m
 Useage:
-v2ray.sh options
+v2ray.sh [options]
 
---start -s     start v2ray and set the system environment
---stop  -p     stop v2ray and unset the system environment
+--install -i   copy v2ray.sh to /usr/bin/v2ray.sh and chmod +x.
+--start -s     start v2ray and set the system environment, 
+               also can be used for showing the proxy connections.
+--stop  -p     stop v2ray and unset the system environment.
+\033[0m
+\033[35;1m
+Example:
+./v2ray.sh -i # install to /usr/bin/
+v2ray.sh -s # start v2ray(requires v2ray install in the enviornment.)
+\033[0m
 """
 
 if [ "$1" = "--start" ] || [ "$1" = "-s" ]; then
@@ -138,6 +176,10 @@ if [ "$1" = "--start" ] || [ "$1" = "-s" ]; then
 elif [ "$1" = "--stop" ] || [ "$1" = "-p" ]; then
     StopV2Ray
     RestSystemProxy
+elif [ "$1" = "--install" ] || [ "$1" = "-i" ]; then
+    InstallShell
+elif [ "$1" = "--version" ] || [ "$1" = "-v" ]; then
+    PrintVersion
 else
-    echo "${helpstr}"
+    echo -e "${helpstr}"
 fi
