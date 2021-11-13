@@ -1,6 +1,9 @@
 # /bin/bash
 
-# control v2ray start/stop under shell
+# tested under Ubuntu-20.04
+# Basic useage:
+# cp v2ray.sh /usr/bin/
+# v2ray.sh -h
 
 StartV2Ray() {
     str="Starting v2ray"
