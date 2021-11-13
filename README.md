@@ -18,3 +18,20 @@ TODO:
 - set apt proxy
 - set wget proxy
 - set curl proxy
+
+Useage:
+
+```text
+Useage:
+v2ray.sh [options]
+
+--install -i   copy v2ray.sh to /usr/bin/v2ray.sh and chmod +x.
+--start -s     start v2ray and set the system environment,
+               also can be used for showing the proxy connections.
+--stop  -p     stop v2ray and unset the system environment.
+
+
+Example:
+./v2ray.sh -i # install to /usr/bin/
+v2ray.sh -s # start v2ray(requires v2ray install in the enviornment.)
+```
